@@ -48,7 +48,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class mod_GreyGoo
 {
-    @SidedProxy(clientSide = "StevenGreyGoo.mod_GreyGooClient.ClientProxy", serverSide = "StevenGreyGoo.mod_GreyGoo.ClientProxy")
+    @SidedProxy(clientSide = "StevenGreyGoo.mod_GreyGooClient.ClientProxy", serverSide = "StevenGreyGoo.mod_GreyGoo.CommonProxy")
     public static CommonProxy proxy;
     public SpreadLimiter spreadLimiter=new SpreadLimiter();
 

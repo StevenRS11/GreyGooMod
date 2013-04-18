@@ -33,6 +33,8 @@ public class SpreadLimiter
 		        }
 
 
+	    	 
+	    	 
 	    		int base=MathHelper.floor_double((spreadthistick-maxspreadpertick/maxspreadpertick));
 	    		
 	           //mod_GreyGoo.proxy.printStringClient(String.valueOf(base));
@@ -120,6 +122,7 @@ public class SpreadLimiter
 		            ++numberoffalling;
 		        }
 
+	    	 	//Long startTime=Long.valueOf(System.nanoTime());
 
 	    		int base=MathHelper.floor_double((numberoffalling-maxnumberoffalling/maxnumberoffalling));
 	    		

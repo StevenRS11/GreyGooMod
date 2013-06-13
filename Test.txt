@@ -1,0 +1,244 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Fractions</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<style type="text/css">
+<!--
+a:link {
+	color: #00C;
+}
+a:visited {
+	color: #F00;
+}
+a:hover {
+	color: #F00;
+}
+a:active {
+	color: #F00;
+}
+-->
+</style>
+<link href="TRANSFORMERS.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<table width="100%" height="566" border="0">
+  <tr>
+    <td colspan="2" align="center"><img src="Assets/images.jpg" width="463" height="109" alt="TRANSFORMERS" /></td>
+  </tr>
+  <tr>
+    <td width="26%" height="412" valign="top"><table width="97%">
+        <tr>
+          <td class="navigation">Navigation</td>
+        </tr>
+        <tr>
+          <td height="50"><ul>
+            <li class="navigation"><a href="index.html">Main Page</a></li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td height="50"><ul>
+            <li class="navigation"><a href="history.html">History</a></li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td height="50"><ul>
+            <li class="navigation"><a href="fractions.html">Fractions</a></li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td height="50"><ul>
+            <li class="navigation"><a href="transformation.html">Transformation</a></li>
+          </ul></td>
+        </tr>
+        <tr>
+          <td height="50" class="navigation"><ul>
+            <li><a href="Links.html" class="navigation">Links</a></li>
+          </ul></td>
+        </tr>
+      </table>
+      <a href="mailto:Mr.Andrew.Johnson025@gmail.com">Contact Me</a></td>
+    <td rowspan="2" valign="top"><!-- InstanceBeginEditable name="Body" -->
+      <table width="100%" border="0">
+        <tr>
+          <td colspan="2" class="header"><a name="Top" id="Top"></a>Fractions</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="body_text"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are two main fractions of TRANSFORMERS; Autobots and Decepticons. The Autobots fight for freedom, whereas the Decepticons seek power and conquest.</p></td>
+        </tr>
+        <tr valign="top">
+          <td class="body_text"><p><img src="Assets/Symbol_autobot_reg.png" alt="The Autobot Insignia" width="50" height="50" align="baseline" />The Autobots main teamates are as follows:</p>
+            <ul>
+              <li>Optimus Prime<img src="Assets/350px-Optimusg1.jpg" alt="Optimus Prime" width="220" height="280" align="right" /></li>
+              <li>Ironhide</li>
+              <li>Ratchet</li>
+              <li>Sunstreaker</li>
+              <li>Perceptor</li>
+              <li>Powerglide</li>
+              <li>Prowl</li>
+              <li>Blaster</li>
+              <li>Bluestreak</li>
+              <li>Tracks</li>
+              <li>Brawn</li>
+              <li>Bumblebee</li>
+              <li>Cliffjumper</li>
+              <li>Cosmos</li>
+              <li>Gears</li>
+              <li>Grapple</li>
+              <li>Hoist</li>
+              <li>Hound</li>
+              <li>Huffer</li>
+              <li>Jazz</li>
+              <li>Mirage</li>
+              <li>Red Alert<img src="Assets/Omegasupreme-dreamwave.jpg" alt="Omega Supreme" width="180" height="253" align="right" /></li>
+              <li>Inferno</li>
+              <li>Seaspray</li>
+              <li>Sideswipe</li>
+              <li>Smikescreen</li>
+              <li>Sunstreaker</li>
+              <li>Trailbreaker</li>
+              <li>Windcharger</li>
+              <li>Wheeljack<br />
+              </li>
+              <li>Warpath</li>
+              <li>Beachcomber</li>
+              <li>Hot Rod</li>
+              <li>Omega Supreme</li>
+            </ul>
+            <p>There are also subgroups within the Autobot's team:</p>
+            <ul>
+              <li>Dinobots: </li>
+              <ul>
+                <li>Grimlock</li>
+                <li>Slag</li>
+                <li>Sludge</li>
+                <li>Snarl</li>
+                <li>Swoop<img src="Assets/DinobotsG1.jpg" alt="The Dinobots" width="330" height="114" align="right" /></li>
+              </ul>
+            </ul>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <ul>
+              <li>The Aerialbots combine to form Superion: </li>
+              <ul>
+                <li>Silverbolt</li>
+                <li>Air Raid</li>
+                <li>Fireflight</li>
+                <li>Skydive</li>
+                <li>Slingshot </li>
+              </ul>
+              <li>Blaster's Autobot Mini-Cassettes
+                <ul>
+                  <li>Eject</li>
+                  <li>Ramhorn</li>
+                  <li>Rewind</li>
+                  <li>Steeljaw </li>
+                </ul>
+              </li>
+              <li>City-bots:
+                <ul>
+                  <li>Metroplex<img src="Assets/transformers-foc---optimus-standing-in-metroplex-hand_530x298.jpg" width="360" height="202" alt="Metroplex" /></li>
+                  <li>Fortress Maximus
+                    <ul>
+                      <li>Cerebros
+                        <ul>
+                          <li>Spike Witwicky</li>
+                        </ul>
+                      </li>
+                      <li>Cog
+                        <ul>
+                          <li>Gasket</li>
+                          <li>Gromme</li></ul></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+          </ul></td>
+          <td class="body_text"><p><img src="Assets/Symbol_decept_reg.png" alt="The Decepticon Insignia" width="50" height="53" />The Decepticons main comrades are as follows:</p>
+            <ul>
+              <li>Megatron<img src="Assets/350px-Megatronguido.jpg" alt="Megatron" width="220" height="308" /></li>
+              <li>Soundwave</li>
+              <li>Astrotrain</li>
+              <li>Blitzwing</li>
+              <li>Thrust</li>
+              <li>Ramjet</li>
+              <li>Dirge</li>
+              <li>Shockwave</li>
+              <li>Reflector</li>
+              <li>Starscream</li>
+              <li>Skywarp</li>
+              <li>Thundercracker</li>
+            </ul>
+            <p>There are also subgroups within the Decepticon's team:</p>
+            <ul>
+              <li>Soundwave'sDecepticon Mini-Cassettes<img src="Assets/220px-Soundwave_and_company.jpg" alt="Soundwave Ejecting Laserbeak, Ravage, and Rumble" width="220" height="170" align="right" /><br />
+                <ul>
+                  <li>Laserbeak </li>
+                </ul>
+              </li>
+              <ul>
+                <li>Ravage</li>
+                <li>Rumble</li>
+                <li>Frenzy</li>
+                <li>Buzzsaw</li>
+                <li>Ratbat</li>
+                <li>Overkill </li>
+              </ul>
+              <li>City-bots: </li>
+            </ul>
+            <ul>
+              <ul>
+                <li>Scorponok </li>
+                <li>Trypticon</li>
+              </ul>
+            </ul>
+            <ul>
+              <li>The Constructicons combine to form Devastator:<img src="Assets/300px-DevastatorManga1.jpg" alt="Devastator" width="240" height="336" align="right" />
+                <ul>
+                  <li>Scrapper</li>
+                  <li>Hook</li>
+                  <li>Bonecrusher</li>
+                  <li>Long Haul</li>
+                  <li>Mixmaster</li>
+                  <li>Scavenger </li>
+                </ul>
+              </li>
+            </ul>
+            <ul>
+              <li>The Combaticons combine to form Bruticus:
+                <ul>
+                  <li>Onslaught</li>
+                  <li>Brawl</li>
+                  <li>Blast Off</li>
+                  <li>Swindle</li>
+                  <li>Vortex</li>
+                </ul>
+              </li>
+              <li>Insecticons:
+                <ul>
+                  <li>Shrapnel</li>
+                  <li>Bombshell</li>
+                  <li>Kickback</li>
+                </ul>
+              </li>
+          </ul></td>
+        </tr>
+        <tr valign="top">
+          <td colspan="2" class="body_text"><a href="#Top">Back to Top</a></td>
+        </tr>
+      </table>
+    <!-- InstanceEndEditable --></td>
+  </tr>
+  <tr>
+    <td height="24"><p>Copyright 2012, Andrew Johnson.<br />
+All rights reserved.</p></td>
+  </tr>
+</table>
+</body>
+<!-- InstanceEnd --></html>

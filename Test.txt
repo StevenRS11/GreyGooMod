@@ -1,8 +1,0 @@
-
-<html>
-<head>
-<title></title>
-</head>
-<img src="Assets/images.jpg" width="463" height="109" alt="TRANSFORMERS" />
-<body></body>
-</html>

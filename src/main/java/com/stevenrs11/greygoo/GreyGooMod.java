@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import com.stevenrs11.greygoo.GravityGooBlock;
+import com.stevenrs11.greygoo.RestorerBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -47,6 +48,10 @@ public class GreyGooMod {
             "gravity_goo_block",
             GravityGooBlock::new);
 
+    public static final RegistryObject<Block> RESTORER_BLOCK = BLOCKS.register(
+            "restorer_block",
+            RestorerBlock::new);
+
     public static final RegistryObject<Item> GREY_GOO_BLOCK_ITEM = ITEMS.register(
             "grey_goo_block",
             () -> new BlockItem(GREY_GOO_BLOCK.get(), new Item.Properties()));
@@ -67,6 +72,10 @@ public class GreyGooMod {
             "gravity_goo_block",
             () -> new BlockItem(GRAVITY_GOO_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> RESTORER_BLOCK_ITEM = ITEMS.register(
+            "restorer_block",
+            () -> new BlockItem(RESTORER_BLOCK.get(), new Item.Properties()));
+
     public GreyGooMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GreyGooCreativeTabs.register(modEventBus);
@@ -79,6 +88,7 @@ public class GreyGooMod {
                 || block == CLEANER_BLOCK.get()
                 || block == AIR_EATER_BLOCK.get()
                 || block == WATER_EATER_BLOCK.get()
-                || block == GRAVITY_GOO_BLOCK.get();
+                || block == GRAVITY_GOO_BLOCK.get()
+                || block == RESTORER_BLOCK.get();
     }
 }

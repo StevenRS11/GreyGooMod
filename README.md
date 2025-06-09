@@ -26,3 +26,12 @@ The compiled jar will appear in `build/libs/`. You can place this file in your M
 ## Notes
 - The provided code only includes a basic block to verify that the mod loads on 1.20.1. More of the original mod features will need to be ported manually.
 - Textures are borrowed from vanilla (`minecraft:block/stone`) to keep things simple. You can replace them with the originals under `assets/greygoo`.
+
+## Texture Utility
+Use `tools/split_textures.py` to slice the provided texture atlases into
+individual 16x16 PNG files. For example:
+```bash
+python tools/split_textures.py GooBlockTextures.png GooItemTextures.png
+```
+Tiles are written to folders next to each source image with placeholder
+names like `tile_000.png`.

@@ -4,7 +4,6 @@
 /run
 /out
 /IdeaProjects
-.gradle
 
 # Eclipse
 .classpath

@@ -1,6 +1,7 @@
 {
-  "block.greygoo.grey_goo_block": "Grey Goo Block"
-  ,"block.greygoo.cleaner_block": "Cleaner"
-  ,"block.greygoo.air_eater_block": "Air Eater"
-  ,"block.greygoo.water_eater_block": "Water Eater"
+  "block.greygoo.grey_goo_block": "Grey Goo Block",
+  "block.greygoo.cleaner_block": "Cleaner",
+  "block.greygoo.air_eater_block": "Air Eater",
+  "block.greygoo.water_eater_block": "Water Eater",
+  "itemGroup.greygoo": "Grey Goo"
 }

@@ -25,4 +25,4 @@ The compiled jar will appear in `build/libs/`. You can place this file in your M
 
 ## Notes
 - The provided code only includes a basic block to verify that the mod loads on 1.20.1. More of the original mod features will need to be ported manually.
-- Textures are borrowed from vanilla (`minecraft:block/stone`) to keep things simple. You can replace them with the originals under `assets/greygoo`.
+- Add your 16x16 textures under `src/main/resources/assets/greygoo/textures` when developing locally. Texture files are not stored in the repository.

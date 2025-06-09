@@ -12,6 +12,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+// Custom creative tab registration
+import com.stevenrs11.greygoo.GreyGooCreativeTabs;
+
 @Mod(GreyGooMod.MODID)
 public class GreyGooMod {
     public static final String MODID = "greygoo";
@@ -31,6 +34,7 @@ public class GreyGooMod {
 
     public GreyGooMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        GreyGooCreativeTabs.register(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
     }

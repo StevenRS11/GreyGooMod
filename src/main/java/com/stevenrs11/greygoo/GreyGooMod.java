@@ -5,12 +5,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.Set;
+
 
 @Mod(GreyGooMod.MODID)
 public class GreyGooMod {
@@ -23,15 +27,46 @@ public class GreyGooMod {
 
     public static final RegistryObject<Block> GREY_GOO_BLOCK = BLOCKS.register(
             "grey_goo_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            GreyGooBlock::new);
+
+    public static final RegistryObject<Block> CLEANER_BLOCK = BLOCKS.register(
+            "cleaner_block",
+            CleanerBlock::new);
+
+    public static final RegistryObject<Block> AIR_EATER_BLOCK = BLOCKS.register(
+            "air_eater_block",
+            AirEaterBlock::new);
+
+    public static final RegistryObject<Block> WATER_EATER_BLOCK = BLOCKS.register(
+            "water_eater_block",
+            WaterEaterBlock::new);
 
     public static final RegistryObject<Item> GREY_GOO_BLOCK_ITEM = ITEMS.register(
             "grey_goo_block",
             () -> new BlockItem(GREY_GOO_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> CLEANER_BLOCK_ITEM = ITEMS.register(
+            "cleaner_block",
+            () -> new BlockItem(CLEANER_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> AIR_EATER_BLOCK_ITEM = ITEMS.register(
+            "air_eater_block",
+            () -> new BlockItem(AIR_EATER_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> WATER_EATER_BLOCK_ITEM = ITEMS.register(
+            "water_eater_block",
+            () -> new BlockItem(WATER_EATER_BLOCK.get(), new Item.Properties()));
+
     public GreyGooMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+    }
+
+    public static boolean isGoo(Block block) {
+        return block == GREY_GOO_BLOCK.get()
+                || block == CLEANER_BLOCK.get()
+                || block == AIR_EATER_BLOCK.get()
+                || block == WATER_EATER_BLOCK.get();
     }
 }

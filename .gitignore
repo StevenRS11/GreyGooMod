@@ -20,8 +20,8 @@ build.log
 
 # Binary artifacts
 *.jar
+!gradle/wrapper/gradle-wrapper.jar
 *.class
 *.exe
 *.dll
 *.so
-

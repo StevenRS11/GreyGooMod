@@ -3,5 +3,6 @@
   "block.greygoo.cleaner_block": "Cleaner",
   "block.greygoo.air_eater_block": "Air Eater",
   "block.greygoo.water_eater_block": "Water Eater",
+"block.greygoo.rainbow_goo_block": "Rainbow Goo",
   "itemGroup.greygoo": "Grey Goo"
 }

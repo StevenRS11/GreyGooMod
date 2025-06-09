@@ -1,0 +1,31 @@
+# Ignore Gradle build files
+/.gradle
+/build
+/run
+/out
+/IdeaProjects
+.gradle
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ
+*.iml
+.idea/
+
+# Misc
+.DS_Store
+build.log
+
+# Binary artifacts
+*.jar
+*.png
+*.gif
+*.jpg
+*.jpeg
+*.class
+*.exe
+*.dll
+*.so

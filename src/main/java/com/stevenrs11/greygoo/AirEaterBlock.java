@@ -29,7 +29,7 @@ public class AirEaterBlock extends Block {
                 level.setBlockAndUpdate(pos, GreyGooMod.CLEANER_BLOCK.get().defaultBlockState());
                 return;
             }
-            if (targetState.isAir() && level.getBrightness(LightLayer.BLOCK, target) > 7) {
+            if (targetState.isAir() && level.getBrightness(LightLayer.SKY, target) > 7) {
                 level.setBlockAndUpdate(target, defaultBlockState());
                 hasFood = true;
             }

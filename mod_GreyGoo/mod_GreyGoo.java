@@ -181,33 +181,16 @@ public class mod_GreyGoo
         mystcraftAgeOnly= config.get("BOOLEAN", "If set to true, enables mystcraft whitelist. Only ages listed there will allow goos to spread", false).getBoolean(false);
        Property myststrin= new Property("IntegerList","",Property.Type.STRING);
        myststrin= config.get("STRING", "List of ages that goos can spread in, only applies if mystCraftAgeOnly=true. List of comma separated ints, <3,7,6,9>", "");
-        //this.mystcraftAgeWhitelist
+        // Parse comma separated list of allowed ages
        String values = myststrin.value;
-       String compiled="";
-       
-       int size = values.length();
-       int count=0;
-       while(size+1>=count)
+
+       for (String token : values.split(","))
        {
-    	   
-    	   int charpos=0;
-    	   while(count+charpos<size&&values.charAt(count+charpos)!=',')
-    	   {
-    	   char cha=values.charAt(count+charpos);
-    	   compiled=cha+compiled;
-    	   charpos++;
-    	   compiled.replace(",", "");
-    	   compiled.replace(" ", "");
-    	  
-    	   }
-    	   if(!compiled.isEmpty())
-    	   {
-    	   this.mystcraftAgeBlacklist.add(Integer.parseInt(compiled));
-    	   }
-    	   compiled="";
-    	   count++;
-    	   count=count+charpos;
-     
+           token = token.trim();
+           if (!token.isEmpty())
+           {
+               this.mystcraftAgeBlacklist.add(Integer.parseInt(token));
+           }
        }
     //   System.out.println(mystcraftAgeWhitelist);
       

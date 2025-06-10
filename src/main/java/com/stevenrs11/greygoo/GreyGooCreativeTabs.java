@@ -21,6 +21,7 @@ public class GreyGooCreativeTabs {
                         output.accept(GreyGooMod.CLEANER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.AIR_EATER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.WATER_EATER_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.RAPID_WATER_EATER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.GRAVITY_GOO_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.REDYELLOW_BLOCK_ITEM.get());
                     })

@@ -1,27 +1,34 @@
-# Ignore Gradle build files
-/.gradle
-/build
-/run
-/out
-/IdeaProjects
+# === Gradle ===
+.gradle/
+build/
+out/
 
-# Eclipse
-.classpath
-.project
-.settings/
-
-# IntelliJ
+# === IntelliJ IDEA ===
 *.iml
 .idea/
+*.iws
+*.ipr
 
-# Misc
+# === VS Code ===
+.vscode/
+
+# === OS junk ===
 .DS_Store
-build.log
+Thumbs.db
 
-# Binary artifacts
-*.jar
-!gradle/wrapper/gradle-wrapper.jar
-*.class
-*.exe
-*.dll
-*.so
+# === Logs and generated stuff ===
+*.log
+*.tmp
+
+# === Minecraft modding specific ===
+run/
+logs/
+remappedSrc/
+.remapped/
+.cache/
+.classpath
+.project
+
+# === Forge / Fabric cache ===
+.libs/
+bin/

@@ -44,6 +44,10 @@ public class GreyGooMod {
             "water_eater_block",
             WaterEaterBlock::new);
 
+    public static final RegistryObject<Block> RAPID_WATER_EATER_BLOCK = BLOCKS.register(
+            "rapid_water_eater_block",
+            RapidWaterEaterBlock::new);
+
     public static final RegistryObject<Block> GRAVITY_GOO_BLOCK = BLOCKS.register(
             "gravity_goo_block",
             GravityGooBlock::new);
@@ -68,6 +72,10 @@ public class GreyGooMod {
             "water_eater_block",
             () -> new BlockItem(WATER_EATER_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> RAPID_WATER_EATER_BLOCK_ITEM = ITEMS.register(
+            "rapid_water_eater_block",
+            () -> new BlockItem(RAPID_WATER_EATER_BLOCK.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> GRAVITY_GOO_BLOCK_ITEM = ITEMS.register(
             "gravity_goo_block",
             () -> new BlockItem(GRAVITY_GOO_BLOCK.get(), new Item.Properties()));
@@ -88,6 +96,7 @@ public class GreyGooMod {
                 || block == CLEANER_BLOCK.get()
                 || block == AIR_EATER_BLOCK.get()
                 || block == WATER_EATER_BLOCK.get()
+                || block == RAPID_WATER_EATER_BLOCK.get()
                 || block == GRAVITY_GOO_BLOCK.get()
                 || block == REDYELLOW_BLOCK.get();
     }

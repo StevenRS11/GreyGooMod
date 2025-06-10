@@ -4,5 +4,6 @@
   "block.greygoo.air_eater_block": "Air Eater",
   "block.greygoo.water_eater_block": "Water Eater",
   "itemGroup.greygoo": "Grey Goo",
-  "block.greygoo.gravity_goo_block": "Gravity Goo"
+  "block.greygoo.gravity_goo_block": "Gravity Goo",
+  "block.greygoo.redyellow_block": "Redyellow"
 }

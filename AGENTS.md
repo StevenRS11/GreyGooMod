@@ -4,6 +4,19 @@
 
 ---
 
+# Custom Repository Agent Instructions
+
+Do not include any binaries in the commits
+
+For tests-
+
+Build the mod
+Run the client
+ensure that the Correct JDK 17 is installed
+
+
+
+
 ## 🎯 Project Target
 
 - **Minecraft Version**: `1.20.1`
@@ -145,13 +158,5 @@ public class ModItems {
 - The project assumes single-mod structure (not a multi-mod build)
 
 
-# Repository Agent Instructions
-
-Do not include any binaries in the commits
-
-For tests-
-
-Build the mod
-Run the client
 
 

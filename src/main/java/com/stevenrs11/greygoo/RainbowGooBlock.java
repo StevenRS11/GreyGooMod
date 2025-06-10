@@ -42,8 +42,8 @@ public class RainbowGooBlock extends Block {
 
         var column = generator.getBaseColumn(pos.getX(), pos.getZ(), level, randomState);
 
-        int localY = pos.getY() - column.getMinY();
-        if (localY >= 0 && localY < column.getHeight()) {
+        int localY = pos.getY() - level.getMinBuildHeight();
+        if (localY >= 0 && localY < level.getHeight()) {
             return column.getBlock(localY);
         }
         return Blocks.AIR.defaultBlockState();

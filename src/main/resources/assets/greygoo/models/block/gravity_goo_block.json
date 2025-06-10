@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "greygoo:block/tile_007"
+    "all": "greygoo:block/gravity_goo_block"
   }
 }

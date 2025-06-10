@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import com.stevenrs11.greygoo.GravityGooBlock;
 import com.stevenrs11.greygoo.RedyellowBlock;
+import com.stevenrs11.greygoo.OrangeRedBlock;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -56,6 +57,10 @@ public class GreyGooMod {
             "redyellow_block",
             RedyellowBlock::new);
 
+    public static final RegistryObject<Block> ORANGE_RED_BLOCK = BLOCKS.register(
+            "orange_red_block",
+            OrangeRedBlock::new);
+
     public static final RegistryObject<Item> GREY_GOO_BLOCK_ITEM = ITEMS.register(
             "grey_goo_block",
             () -> new BlockItem(GREY_GOO_BLOCK.get(), new Item.Properties()));
@@ -84,6 +89,10 @@ public class GreyGooMod {
             "redyellow_block",
             () -> new BlockItem(REDYELLOW_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> ORANGE_RED_BLOCK_ITEM = ITEMS.register(
+            "orange_red_block",
+            () -> new BlockItem(ORANGE_RED_BLOCK.get(), new Item.Properties()));
+
     public GreyGooMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GreyGooCreativeTabs.register(modEventBus);
@@ -98,6 +107,7 @@ public class GreyGooMod {
                 || block == WATER_EATER_BLOCK.get()
                 || block == RAPID_WATER_EATER_BLOCK.get()
                 || block == GRAVITY_GOO_BLOCK.get()
-                || block == REDYELLOW_BLOCK.get();
+                || block == REDYELLOW_BLOCK.get()
+                || block == ORANGE_RED_BLOCK.get();
     }
 }

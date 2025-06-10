@@ -52,7 +52,7 @@ public class RapidWaterEaterBlock extends Block {
                     }
                     if (targetState.getFluidState().is(FluidTags.WATER) || targetState.getFluidState().is(FluidTags.LAVA)) {
                         level.setBlockAndUpdate(target, defaultBlockState().setValue(STAGE, stage + 1));
-                        level.scheduleTick(target, this, 5);
+                        level.scheduleTick(target, this, level.getRandom().nextInt(3));
                         found = true;
                     }
                 }
@@ -83,7 +83,7 @@ public class RapidWaterEaterBlock extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide && state.getValue(STAGE) > 0) {
-            level.scheduleTick(pos, this, 5);
+            level.scheduleTick(pos, this, level.getRandom().nextInt(3));
         }
     }
 }

@@ -146,3 +146,12 @@ public class ModItems {
 
 
 # Repository Agent Instructions
+
+Do not include any binaries in the commits
+
+For tests-
+
+Build the mod
+Run the client
+
+

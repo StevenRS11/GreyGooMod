@@ -20,7 +20,7 @@ public class RapidWaterEaterBlock extends Block {
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 50);
 
     public RapidWaterEaterBlock() {
-        super(BlockBehaviour.Properties.copy(Blocks.STONE).noRandomTicks());
+        super(BlockBehaviour.Properties.copy(Blocks.STONE).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(STAGE, 0));
     }
 

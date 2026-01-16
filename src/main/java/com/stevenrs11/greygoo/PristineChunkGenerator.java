@@ -109,8 +109,8 @@ public class PristineChunkGenerator {
         if (chunk != null) {
             // Cache hit!
             cacheHits++;
-            LOGGER.debug("Pristine chunk cache HIT: {} (hit rate: {:.1f}%)",
-                chunkPos, getCacheHitRate());
+            LOGGER.debug("Pristine chunk cache HIT: {} (hit rate: {}%)",
+                chunkPos, String.format("%.1f", getCacheHitRate()));
         } else {
             // Cache miss - load from backup dimension
             cacheMisses++;

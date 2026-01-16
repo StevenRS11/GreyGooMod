@@ -127,8 +127,8 @@ public class RestorerBlock extends Block {
 
                     // 50% chance to spread restorer block to this position (original line 110)
                     if (random.nextBoolean()) {
-                        // Can spread into anything except bedrock/barrier (ALLOW spreading into goo!)
-                        if (!currentBlock.is(Blocks.BEDROCK) && !currentBlock.is(Blocks.BARRIER)) {
+                        // Can spread into anything except bedrock/barrier/other restorers
+                        if (!currentBlock.is(Blocks.BEDROCK) && !currentBlock.is(Blocks.BARRIER) && !currentBlock.is(this)) {
                             level.setBlockAndUpdate(targetPos,
                                 defaultBlockState().setValue(RESTORE_STATE, STATE_DEFAULT));
 

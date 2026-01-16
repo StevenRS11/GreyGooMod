@@ -90,6 +90,67 @@ Place generated textures in:
 **Protected Blocks:**
 GreyGooBlock never consumes: bedrock, chest, ender_chest. Add more to the `NEVER_EAT` set as needed.
 
+## Dynamic Dimension System
+
+**See [DIMENSION_SYSTEM.md](DIMENSION_SYSTEM.md) for complete technical documentation.**
+
+The mod uses a sophisticated dynamic dimension creation system to support the Restorer Block. Key components:
+
+### Architecture Summary
+
+1. **Access Transformers** (`src/main/resources/META-INF/accesstransformer.cfg`)
+   - Exposes private MinecraftServer fields using SRG names
+   - Required: `f_129756_` (progressListenerFactory), `f_129738_` (executor), `f_129744_` (storageSource)
+   - Required: `f_206223_` (RegistryAccess.ImmutableRegistryAccess.registries)
+   - **CRITICAL**: After modifying AT files, run `./gradlew clean build --refresh-dependencies`
+
+2. **DynamicDimensionManager.java**
+   - Creates dimensions at runtime (adapted from RFTools Dimensions)
+   - Main method: `getOrCreateLevel(server, levelKey, dimensionFactory)`
+   - Handles registry manipulation, ServerLevel construction, world persistence
+
+3. **PristineChunkGenerator.java**
+   - Manages the `greygoo:pristine_backup` dimension
+   - Lazily creates backup dimension mirroring overworld generation
+   - Provides `getPristineBlock(level, pos)` for querying pristine block states
+
+4. **RestorerBlock.java**
+   - Uses PristineChunkGenerator to compare current vs pristine blocks
+   - 3-state restoration cycle (DEFAULT → READY → COMPLETE)
+   - Spreads into modified blocks (including other goo) with 50% probability
+
+### Why This Approach?
+
+- **Seed Synchronization**: Backup dimension automatically uses same seed as overworld (copies ChunkGenerator)
+- **Complete Generation**: Structures, features, biomes all handled by vanilla systems
+- **Performance**: Direct queries instead of slow on-demand chunk generation
+- **Persistence**: Dimension saves with world data, reloads automatically
+
+### Key Technical Details
+
+**LevelStem Copying** - The magic happens here:
+```java
+LevelStem overworldStem = /* get from registry */;
+return new LevelStem(
+    overworldStem.type(),        // Same DimensionType
+    overworldStem.generator()    // Same ChunkGenerator = same seed!
+);
+```
+
+**Why Not JSON Dimensions?** JSON dimensions cannot dynamically inherit world seeds per-save in Forge 1.20.1 ([source](https://forums.minecraftforge.net/topic/139721-1201-custom-seed-for-custom-dimensions/)).
+
+**SRG Names in Access Transformers**: Field names work in dev but are obfuscated in production. SRG names (e.g., `f_129756_`) are intermediate mappings that work in both. Find them in `build/fg_cache/.../srg_to_official_1.20.1.tsrg`.
+
+### Future Extensions
+
+This system can be extended for:
+- Time-travel dimensions (world snapshots at different timestamps)
+- Mirror dimensions (inverted terrain, different structure gen)
+- Parallel realities (same seed, modified generation settings)
+- Custom ChunkGenerators for completely unique terrain
+
+Refer to DIMENSION_SYSTEM.md sections "Future Extensions" and "Usage Guide" for implementation examples.
+
 ## Code Style Notes
 
 - Package: `com.stevenrs11.greygoo`
@@ -99,6 +160,7 @@ GreyGooBlock never consumes: bedrock, chest, ender_chest. Add more to the `NEVER
 - All goo blocks should implement both random tick spreading and manual click-to-spread
 - Use `BlockBehaviour.Properties.copy(Blocks.STONE).randomTicks()` for goo block properties
 - Server-side logic only - check `!level.isClientSide` before modifications
+- **Timing**: Use randomized delays for scheduleTick() to prevent synchronized updates (e.g., `random.nextInt(25) + random.nextInt(10)`)
 
 ## Important Constraints
 

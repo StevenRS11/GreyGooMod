@@ -1,0 +1,14 @@
+{
+    "replace": false,
+    "values": [
+        "greygoo:grey_goo_block",
+        "greygoo:cleaner_block",
+        "greygoo:air_eater_block",
+        "greygoo:water_eater_block",
+        "greygoo:rapid_water_eater_block",
+        "greygoo:gravity_goo_block",
+        "greygoo:wall_block",
+        "greygoo:restorer_block",
+        "greygoo:redyellow_block"
+    ]
+}

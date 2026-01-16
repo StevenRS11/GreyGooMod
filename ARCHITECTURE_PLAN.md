@@ -27,10 +27,12 @@ This document outlines the architecture for reimplementing the Grey Goo mod for 
 
 **Default Rule:** All goo blocks must reproduce the **exact behavior** from the original OldGreyGoo mod unless explicitly specified otherwise.
 
-**Exceptions (Keep Current Behavior):**
+**Exceptions (Keep Current Behavior - Do NOT Refactor):**
 | Block | Reason |
 |-------|--------|
 | RedyellowBlock | User prefers current 1.20.1 implementation over original |
+| YellowGooBlock | User prefers current 1.20.1 implementation over original |
+| RestorerBlock | Complex dimension system - keep in own category, unchanged |
 | (Other yellow variants) | Same - current behavior preferred |
 
 When implementing new blocks, always refer to the original source in `C:\Users\steve\IdeaProjects\OldGreyGoo` and match behavior precisely including:
@@ -72,21 +74,24 @@ Block (Minecraft)
             │       └── TGDBlock
             │
             ├── ScheduledTickGooBlock (spreads via scheduleTick)
+            │       │   Optional features via hooks:
+            │       │   - requiresActivation() → per-block activation
+            │       │   - hasFoundationRequirement() → needs adjacent foundation
+            │       │
             │       ├── RapidEaterBlock
             │       ├── RapidWaterEaterBlock (depth-limited)
             │       ├── RapidMinerBlock
             │       ├── FreezerBlock
-            │       └── RestorerBlock
-            │
-            ├── ActivatedGooBlock (per-block activation, scheduled tick)
-            │       ├── OrangeRedBlock (foundation-required)
-            │       ├── OrangeWhiteBlock (foundation-required)
-            │       └── OrangePurpleBlock (foundation-required, removes behind)
+            │       ├── OrangeRedBlock (activation + foundation)
+            │       ├── OrangeWhiteBlock (activation + foundation)
+            │       └── OrangePurpleBlock (activation + foundation)
             │
             └── InertGooBlock (no spreading)
                     ├── InertBlock
                     ├── Cancer2Block
                     └── TGDInertBlock
+
+Note: RestorerBlock is kept separate (not refactored) per user request.
 ```
 
 ### AbstractGooBlock - Base Class Design
@@ -239,55 +244,6 @@ public abstract class ScheduledTickGooBlock extends AbstractGooBlock {
         if (!level.isClientSide) {
             scheduleNextTick(level, pos);
         }
-    }
-}
-```
-
-### ActivatedGooBlock (Color Variants with Per-Block Activation)
-
-```java
-public abstract class ActivatedGooBlock extends ScheduledTickGooBlock {
-
-    public static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
-
-    public ActivatedGooBlock(Properties props) {
-        super(props);
-        registerDefaultState(stateDefinition.any().setValue(ACTIVATED, false));
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ACTIVATED);
-    }
-
-    @Override
-    public final void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        // Only spread if activated
-        if (!state.getValue(ACTIVATED)) return;
-        super.tick(state, level, pos, random);
-    }
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos,
-                                  Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide && !state.getValue(ACTIVATED)) {
-            // Activate on right-click
-            level.setBlockAndUpdate(pos, state.setValue(ACTIVATED, true));
-            scheduleNextTick(level, pos);
-            return InteractionResult.SUCCESS;
-        }
-        return InteractionResult.PASS;
-    }
-
-    // Foundation requirement - must have adjacent same-type or Inert
-    protected boolean hasFoundation(ServerLevel level, BlockPos pos) {
-        for (Direction dir : Direction.values()) {
-            Block neighbor = level.getBlockState(pos.relative(dir)).getBlock();
-            if (neighbor == this || neighbor == GreyGooMod.INERT_BLOCK.get()) {
-                return true;
-            }
-        }
-        return false;
     }
 }
 ```
@@ -842,8 +798,7 @@ src/main/java/com/stevenrs11/greygoo/
 ├── core/
 │   ├── AbstractGooBlock.java       # Base class with all shared logic
 │   ├── RandomTickGooBlock.java     # Random tick spreading
-│   ├── ScheduledTickGooBlock.java  # Scheduled tick spreading
-│   ├── ActivatedGooBlock.java      # Per-block activation (color variants)
+│   ├── ScheduledTickGooBlock.java  # Scheduled tick spreading (with activation/foundation hooks)
 │   ├── InertGooBlock.java          # Non-spreading base
 │   └── GooType.java                # Enum of all goo types
 │

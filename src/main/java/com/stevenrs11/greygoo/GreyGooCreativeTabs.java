@@ -17,14 +17,24 @@ public class GreyGooCreativeTabs {
                     .title(Component.translatable("itemGroup." + GreyGooMod.MODID))
                     .icon(() -> new ItemStack(GreyGooMod.GREY_GOO_BLOCK_ITEM.get()))
                     .displayItems((params, output) -> {
+                        // Consumer goos
                         output.accept(GreyGooMod.GREY_GOO_BLOCK_ITEM.get());
-                        output.accept(GreyGooMod.CLEANER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.AIR_EATER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.WATER_EATER_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.MINER_GOO_BLOCK_ITEM.get());
+                        // Rapid variants
+                        output.accept(GreyGooMod.RAPID_EATER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.RAPID_WATER_EATER_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.RAPID_MINER_BLOCK_ITEM.get());
+                        // Special
                         output.accept(GreyGooMod.GRAVITY_GOO_BLOCK_ITEM.get());
-                        output.accept(GreyGooMod.REDYELLOW_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.PURPLE_GOO_BLOCK_ITEM.get());
+                        // Defensive
+                        output.accept(GreyGooMod.CLEANER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.WALL_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.INERT_BLOCK_ITEM.get());
+                        // Legacy/Special
+                        output.accept(GreyGooMod.REDYELLOW_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.RESTORER_BLOCK_ITEM.get());
                     })
                     .build());

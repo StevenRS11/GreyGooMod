@@ -11,7 +11,9 @@
       "Bash(git clone:*)",
       "Bash(./gradlew clean build:*)",
       "Bash(./gradlew:*)",
-      "WebFetch(domain:docs.minecraftforge.net)"
+      "WebFetch(domain:docs.minecraftforge.net)",
+      "Bash(dir \"C:\\\\Users\\\\steve\\\\IdeaProjects\\\\GreyGooMod\" /s /b /ad)",
+      "Bash(findstr:*)"
     ]
   }
 }

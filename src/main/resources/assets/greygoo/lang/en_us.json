@@ -7,5 +7,6 @@
   "itemGroup.greygoo": "Grey Goo",
   "block.greygoo.gravity_goo_block": "Gravity Goo",
   "block.greygoo.redyellow_block": "Redyellow",
-  "block.greygoo.wall_block": "Wall Goo"
+  "block.greygoo.wall_block": "Wall Goo",
+  "block.greygoo.restorer_block": "Restorer"
 }

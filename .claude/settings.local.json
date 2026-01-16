@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:forums.minecraftforge.net)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:lexxie.dev)",
+      "Bash(./gradlew build:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git clone:*)",
+      "Bash(./gradlew clean build:*)",
+      "Bash(./gradlew:*)",
+      "WebFetch(domain:docs.minecraftforge.net)"
+    ]
+  }
+}

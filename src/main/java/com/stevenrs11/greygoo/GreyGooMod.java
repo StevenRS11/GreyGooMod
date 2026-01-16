@@ -61,6 +61,10 @@ public class GreyGooMod {
             "wall_block",
             WallBlock::new);
 
+    public static final RegistryObject<Block> RESTORER_BLOCK = BLOCKS.register(
+            "restorer_block",
+            RestorerBlock::new);
+
     public static final RegistryObject<Item> GREY_GOO_BLOCK_ITEM = ITEMS.register(
             "grey_goo_block",
             () -> new BlockItem(GREY_GOO_BLOCK.get(), new Item.Properties()));
@@ -93,6 +97,10 @@ public class GreyGooMod {
             "wall_block",
             () -> new BlockItem(WALL_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> RESTORER_BLOCK_ITEM = ITEMS.register(
+            "restorer_block",
+            () -> new BlockItem(RESTORER_BLOCK.get(), new Item.Properties()));
+
     public GreyGooMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         GreyGooCreativeTabs.register(modEventBus);
@@ -108,6 +116,7 @@ public class GreyGooMod {
                 || block == RAPID_WATER_EATER_BLOCK.get()
                 || block == GRAVITY_GOO_BLOCK.get()
                 || block == REDYELLOW_BLOCK.get()
-                || block == WALL_BLOCK.get();
+                || block == WALL_BLOCK.get()
+                || block == RESTORER_BLOCK.get();
     }
 }

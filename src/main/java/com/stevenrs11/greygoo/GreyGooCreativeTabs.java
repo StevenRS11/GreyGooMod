@@ -25,6 +25,7 @@ public class GreyGooCreativeTabs {
                         output.accept(GreyGooMod.GRAVITY_GOO_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.REDYELLOW_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.WALL_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.RESTORER_BLOCK_ITEM.get());
                     })
                     .build());
 

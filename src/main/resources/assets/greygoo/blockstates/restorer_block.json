@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "restore_state=0": {"model": "greygoo:block/restorer_block_default"},
+    "restore_state=1": {"model": "greygoo:block/restorer_block_ready"},
+    "restore_state=2": {"model": "greygoo:block/restorer_block_complete"}
+  }
+}

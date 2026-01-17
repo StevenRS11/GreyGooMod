@@ -1,6 +1,5 @@
 {
   "variants": {
-    "activated=false": {"model": "greygoo:block/purple_goo_block"},
-    "activated=true": {"model": "greygoo:block/purple_goo_block_active"}
+    "": {"model": "greygoo:block/purple_goo_block"}
   }
 }

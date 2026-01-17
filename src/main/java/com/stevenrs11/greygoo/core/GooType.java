@@ -43,9 +43,10 @@ public enum GooType {
     GRAVITY_GOO("gravity_goo", 25, 15, 0.7f),
 
     // Color variants
+    PURPLE_GOO("purple_goo", 100, 50, 0.8f),  // BlockGreyGoo.java - has decay logic
     ORANGE_RED("orange_red", 80, 40, 0.8f),
     ORANGE_WHITE("orange_white", 80, 40, 0.8f),
-    ORANGE_PURPLE("orange_purple", 80, 40, 0.8f),
+    ORANGE_PURPLE("orange_purple", 80, 40, 0.8f),  // Moving front effect
 
     // Special (kept from current implementation)
     REDYELLOW("redyellow", 80, 40, 0.8f),

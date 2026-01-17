@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": {"model": "greygoo:block/wall_block"}
+    "inactive=false": {"model": "greygoo:block/wall_block"},
+    "inactive=true": {"model": "greygoo:block/wall_block_inactive"}
   }
 }

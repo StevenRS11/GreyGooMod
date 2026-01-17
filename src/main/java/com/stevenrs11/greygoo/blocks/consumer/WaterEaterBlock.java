@@ -8,19 +8,30 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 /**
  * Water Eater - consumes water and lava.
  * Spreads via random ticks into adjacent fluid blocks.
- * Dies when no fluids are found.
+ * When no food is found, becomes inactive (stops spreading but stays in place).
  */
 public class WaterEaterBlock extends RandomTickGooBlock {
 
+    public static final BooleanProperty INACTIVE = BooleanProperty.create("inactive");
+
     public WaterEaterBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(INACTIVE, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(INACTIVE);
     }
 
     @Override
@@ -30,6 +41,13 @@ public class WaterEaterBlock extends RandomTickGooBlock {
 
     @Override
     protected void doSpread(ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockState currentState = level.getBlockState(pos);
+
+        // Check if inactive (starved) - skip spreading if so
+        if (currentState.getValue(INACTIVE)) {
+            return;
+        }
+
         boolean hasFood = false;
 
         for (Direction dir : Direction.values()) {
@@ -58,13 +76,13 @@ public class WaterEaterBlock extends RandomTickGooBlock {
         }
 
         if (!hasFood) {
-            onStarve(level, pos, level.getBlockState(pos));
+            onStarve(level, pos, currentState);
         }
     }
 
     @Override
     protected void onStarve(ServerLevel level, BlockPos pos, BlockState state) {
-        // Water eater dies when it has no food
-        level.destroyBlock(pos, false);
+        // Water eater becomes inactive when it has no food
+        level.setBlockAndUpdate(pos, state.setValue(INACTIVE, true));
     }
 }

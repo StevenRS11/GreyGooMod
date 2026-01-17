@@ -54,9 +54,6 @@ public class PristineChunkGenerator {
             @Override
             protected boolean removeEldestEntry(Map.Entry<ChunkPos, ChunkAccess> eldest) {
                 boolean shouldRemove = size() > CHUNK_CACHE_SIZE;
-                if (shouldRemove) {
-                    LOGGER.debug("Evicting chunk from cache: {}", eldest.getKey());
-                }
                 return shouldRemove;
             }
         }
@@ -109,33 +106,17 @@ public class PristineChunkGenerator {
         if (chunk != null) {
             // Cache hit!
             cacheHits++;
-            LOGGER.debug("Pristine chunk cache HIT: {} (hit rate: {}%)",
-                chunkPos, String.format("%.1f", getCacheHitRate()));
         } else {
             // Cache miss - load from backup dimension
             cacheMisses++;
-            LOGGER.debug("Pristine chunk cache MISS: {} - loading from backup dimension",
-                chunkPos);
-
-            long startTime = System.nanoTime();
             chunk = backupDimension.getChunk(chunkPos.x, chunkPos.z);
-            long loadTime = System.nanoTime() - startTime;
 
             // Add to cache
             chunkCache.put(chunkPos, chunk);
-
-            LOGGER.debug("Loaded chunk {} in {:.2f}ms (cache size: {}/{})",
-                chunkPos,
-                loadTime / 1_000_000.0,
-                chunkCache.size(),
-                CHUNK_CACHE_SIZE);
         }
 
         // Get block state from chunk
-        BlockState pristineState = chunk.getBlockState(pos);
-
-        LOGGER.trace("Pristine block at {}: {}", pos, pristineState.getBlock());
-        return pristineState;
+        return chunk.getBlockState(pos);
     }
 
     /**

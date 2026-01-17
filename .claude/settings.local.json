@@ -13,7 +13,10 @@
       "Bash(./gradlew:*)",
       "WebFetch(domain:docs.minecraftforge.net)",
       "Bash(dir \"C:\\\\Users\\\\steve\\\\IdeaProjects\\\\GreyGooMod\" /s /b /ad)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(dir \"C:\\\\Users\\\\steve\\\\IdeaProjects\\\\GreyGooMod\")",
+      "Bash(dir /s /b \"C:\\\\Users\\\\steve\\\\IdeaProjects\\\\GreyGooMod\")",
+      "Bash(grep:*)"
     ]
   }
 }

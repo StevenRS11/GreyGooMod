@@ -3,6 +3,7 @@ package com.stevenrs11.greygoo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,9 +15,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The Restorer Block (also known as Rainbow Goo) restores the world to its original
@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
  * adjacent modified blocks. When no work remains, the block self-destructs.
  */
 public class RestorerBlock extends Block {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RestorerBlock.class);
     public static final IntegerProperty RESTORE_STATE = IntegerProperty.create("restore_state", 0, 2);
 
     // Shared pristine chunk generator for all restorer blocks
@@ -90,6 +89,30 @@ public class RestorerBlock extends Block {
     }
 
     /**
+     * Check if a block should be excluded from restoration comparison.
+     * Excluded blocks are treated as "matching" even if they differ from pristine.
+     * This prevents the restorer from endlessly fighting with dynamic blocks.
+     */
+    private boolean isExcludedFromRestoration(BlockState state) {
+        // Exclude flowing fluids (they regenerate constantly)
+        FluidState fluidState = state.getFluidState();
+        if (!fluidState.isEmpty()) {
+            // Check if it's flowing (not a source block)
+            // Source blocks have level 8, flowing has level 1-7
+            if (fluidState.is(FluidTags.WATER) || fluidState.is(FluidTags.LAVA)) {
+                if (!fluidState.isSource()) {
+                    return true;  // Exclude flowing water/lava
+                }
+            }
+        }
+
+        // Add more exclusions here as needed
+        // e.g., fire, portals, etc.
+
+        return false;
+    }
+
+    /**
      * Main restoration logic - implements the 3-state cycle matching the original exactly
      */
     private void restore(ServerLevel level, BlockPos pos, BlockState currentState, RandomSource random) {
@@ -101,7 +124,6 @@ public class RestorerBlock extends Block {
             if (pristineBlock != null) {
                 // Restore the current position
                 level.setBlockAndUpdate(pos, pristineBlock);
-                LOGGER.debug("Restorer at {} restored itself to {}", pos, pristineBlock.getBlock());
                 return;  // Block has been replaced, we're done
             }
         }
@@ -121,6 +143,11 @@ public class RestorerBlock extends Block {
                     continue;
                 }
 
+                // Skip excluded blocks (treat as matching)
+                if (isExcludedFromRestoration(currentBlock)) {
+                    continue;
+                }
+
                 // Check if blocks differ (compare block type only, like original)
                 if (!currentBlock.is(pristineBlock.getBlock())) {
                     flag1 = false;  // Found at least one difference
@@ -135,8 +162,6 @@ public class RestorerBlock extends Block {
                             // Schedule the new restorer block to update soon (original line 116)
                             int delay = random.nextInt(25) + random.nextInt(10);
                             level.scheduleTick(targetPos, this, delay);
-
-                            LOGGER.debug("Spread restorer to {}, scheduled in {} ticks", targetPos, delay);
                         }
                     } else {
                         // 50% chance we didn't spread - mark as incomplete
@@ -150,12 +175,10 @@ public class RestorerBlock extends Block {
                 // All adjacent blocks either match or we spread successfully
                 level.setBlockAndUpdate(pos,
                     defaultBlockState().setValue(RESTORE_STATE, STATE_READY));
-                LOGGER.debug("Restorer at {} transitioned to READY state", pos);
             } else if (flag1 && level.getBlockState(pos).is(this)) {
                 // No differences found at all - ready to decay
                 level.setBlockAndUpdate(pos,
                     defaultBlockState().setValue(RESTORE_STATE, STATE_COMPLETE));
-                LOGGER.debug("Restorer at {} transitioned to COMPLETE state (no work)", pos);
             }
 
             // Schedule next update (original line 151)

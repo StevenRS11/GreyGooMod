@@ -75,10 +75,23 @@ Place generated textures in:
 - `src/main/resources/assets/greygoo/textures/block/`
 - `src/main/resources/assets/greygoo/textures/item/`
 
+## Original Mod Naming Convention
+
+**IMPORTANT:** The original mod has confusing naming between code and in-game names:
+
+| In-Game Name | Original Code File | Behavior |
+|--------------|-------------------|----------|
+| **Purple Goo** | `BlockGreyGoo.java` | Random ticks, 6-direction spread, decay logic, metadata 2=inactive |
+| **Grey Goo/Grey Eater** | `BlockGreyEater.java` | Random ticks, orthogonal only (Manhattan=1), color variants, cancer mutation |
+| **OrangePurple** | `BlockOrangePurple.java` | Scheduled ticks, foundation required (inert/self behind), moving front effect |
+
+When implementing or fixing goo behaviors, always reference the ORIGINAL CODE FILE, not the in-game name.
+
 ## Block Types Reference
 
 **Core Goo Blocks:**
-- `GreyGooBlock` - Consumes all non-protected blocks (excludes bedrock, chests, ender chests)
+- `GreyGooBlock` - Grey Eater behavior: orthogonal spread only, color variants based on consumed block
+- `PurpleGooBlock` - Purple Goo behavior: 6-direction spread, decay logic, becomes inactive when starved
 - `CleanerBlock` - Removes goo blocks in radius 2 (Manhattan distance)
 - `AirEaterBlock` - Consumes air blocks only
 - `WaterEaterBlock` - Consumes water and lava fluids

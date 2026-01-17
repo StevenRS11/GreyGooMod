@@ -1,5 +1,8 @@
 package com.stevenrs11.greygoo;
 
+import com.stevenrs11.greygoo.blocks.color.OrangePurpleBlock;
+import com.stevenrs11.greygoo.blocks.color.OrangeRedBlock;
+import com.stevenrs11.greygoo.blocks.color.OrangeWhiteBlock;
 import com.stevenrs11.greygoo.blocks.color.PurpleGooBlock;
 import com.stevenrs11.greygoo.blocks.consumer.AirEaterBlock;
 import com.stevenrs11.greygoo.blocks.consumer.GreyGooBlock;
@@ -7,6 +10,11 @@ import com.stevenrs11.greygoo.blocks.consumer.MinerGooBlock;
 import com.stevenrs11.greygoo.blocks.consumer.WaterEaterBlock;
 import com.stevenrs11.greygoo.blocks.defensive.CleanerBlock;
 import com.stevenrs11.greygoo.blocks.defensive.WallBlock;
+import com.stevenrs11.greygoo.blocks.destroyer.BlackDestroyerBlock;
+import com.stevenrs11.greygoo.blocks.destroyer.Cancer2Block;
+import com.stevenrs11.greygoo.blocks.destroyer.CancerBlock;
+import com.stevenrs11.greygoo.blocks.destroyer.TGDBlock;
+import com.stevenrs11.greygoo.blocks.destroyer.TGDInertBlock;
 import com.stevenrs11.greygoo.blocks.inert.InertBlock;
 import com.stevenrs11.greygoo.blocks.rapid.RapidEaterBlock;
 import com.stevenrs11.greygoo.blocks.rapid.RapidMinerBlock;
@@ -87,6 +95,18 @@ public class GreyGooMod {
             "purple_goo_block",
             PurpleGooBlock::new);
 
+    public static final RegistryObject<Block> ORANGE_PURPLE_BLOCK = BLOCKS.register(
+            "orange_purple_block",
+            OrangePurpleBlock::new);
+
+    public static final RegistryObject<Block> ORANGE_RED_BLOCK = BLOCKS.register(
+            "orange_red_block",
+            OrangeRedBlock::new);
+
+    public static final RegistryObject<Block> ORANGE_WHITE_BLOCK = BLOCKS.register(
+            "orange_white_block",
+            OrangeWhiteBlock::new);
+
     // Kept as-is per user preference (not refactored)
     public static final RegistryObject<Block> REDYELLOW_BLOCK = BLOCKS.register(
             "redyellow_block",
@@ -96,6 +116,28 @@ public class GreyGooMod {
     public static final RegistryObject<Block> RESTORER_BLOCK = BLOCKS.register(
             "restorer_block",
             RestorerBlock::new);
+
+    // ==================== Destroyer Blocks ====================
+
+    public static final RegistryObject<Block> BLACK_DESTROYER_BLOCK = BLOCKS.register(
+            "black_destroyer_block",
+            BlackDestroyerBlock::new);
+
+    public static final RegistryObject<Block> CANCER_BLOCK = BLOCKS.register(
+            "cancer_block",
+            CancerBlock::new);
+
+    public static final RegistryObject<Block> CANCER2_BLOCK = BLOCKS.register(
+            "cancer2_block",
+            Cancer2Block::new);
+
+    public static final RegistryObject<Block> TGD_BLOCK = BLOCKS.register(
+            "tgd_block",
+            TGDBlock::new);
+
+    public static final RegistryObject<Block> TGD_INERT_BLOCK = BLOCKS.register(
+            "tgd_inert_block",
+            TGDInertBlock::new);
 
     // ==================== Item Registrations ====================
 
@@ -147,6 +189,18 @@ public class GreyGooMod {
             "purple_goo_block",
             () -> new BlockItem(PURPLE_GOO_BLOCK.get(), new Item.Properties()));
 
+    public static final RegistryObject<Item> ORANGE_PURPLE_BLOCK_ITEM = ITEMS.register(
+            "orange_purple_block",
+            () -> new BlockItem(ORANGE_PURPLE_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORANGE_RED_BLOCK_ITEM = ITEMS.register(
+            "orange_red_block",
+            () -> new BlockItem(ORANGE_RED_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> ORANGE_WHITE_BLOCK_ITEM = ITEMS.register(
+            "orange_white_block",
+            () -> new BlockItem(ORANGE_WHITE_BLOCK.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> REDYELLOW_BLOCK_ITEM = ITEMS.register(
             "redyellow_block",
             () -> new BlockItem(REDYELLOW_BLOCK.get(), new Item.Properties()));
@@ -154,6 +208,28 @@ public class GreyGooMod {
     public static final RegistryObject<Item> RESTORER_BLOCK_ITEM = ITEMS.register(
             "restorer_block",
             () -> new BlockItem(RESTORER_BLOCK.get(), new Item.Properties()));
+
+    // ==================== Destroyer Block Items ====================
+
+    public static final RegistryObject<Item> BLACK_DESTROYER_BLOCK_ITEM = ITEMS.register(
+            "black_destroyer_block",
+            () -> new BlockItem(BLACK_DESTROYER_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CANCER_BLOCK_ITEM = ITEMS.register(
+            "cancer_block",
+            () -> new BlockItem(CANCER_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> CANCER2_BLOCK_ITEM = ITEMS.register(
+            "cancer2_block",
+            () -> new BlockItem(CANCER2_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> TGD_BLOCK_ITEM = ITEMS.register(
+            "tgd_block",
+            () -> new BlockItem(TGD_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<Item> TGD_INERT_BLOCK_ITEM = ITEMS.register(
+            "tgd_inert_block",
+            () -> new BlockItem(TGD_INERT_BLOCK.get(), new Item.Properties()));
 
     // ==================== Mod Constructor ====================
 
@@ -204,8 +280,16 @@ public class GreyGooMod {
         GooType.MINER_GOO.registerBlock(MINER_GOO_BLOCK::get);
         GooType.RAPID_EATER.registerBlock(RAPID_EATER_BLOCK::get);
         GooType.RAPID_MINER.registerBlock(RAPID_MINER_BLOCK::get);
-        GooType.ORANGE_PURPLE.registerBlock(PURPLE_GOO_BLOCK::get);
-        // Additional goo types will be registered as blocks are added
+        GooType.PURPLE_GOO.registerBlock(PURPLE_GOO_BLOCK::get);
+        GooType.ORANGE_PURPLE.registerBlock(ORANGE_PURPLE_BLOCK::get);
+        GooType.ORANGE_RED.registerBlock(ORANGE_RED_BLOCK::get);
+        GooType.ORANGE_WHITE.registerBlock(ORANGE_WHITE_BLOCK::get);
+        // Destroyer blocks
+        GooType.BLACK_DESTROYER.registerBlock(BLACK_DESTROYER_BLOCK::get);
+        GooType.CANCER.registerBlock(CANCER_BLOCK::get);
+        GooType.CANCER2.registerBlock(CANCER2_BLOCK::get);
+        GooType.TGD.registerBlock(TGD_BLOCK::get);
+        GooType.TGD_INERT.registerBlock(TGD_INERT_BLOCK::get);
     }
 
     /**

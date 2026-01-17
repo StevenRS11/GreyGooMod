@@ -29,6 +29,10 @@ public class GreyGooCreativeTabs {
                         // Special
                         output.accept(GreyGooMod.GRAVITY_GOO_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.PURPLE_GOO_BLOCK_ITEM.get());
+                        // Color variants
+                        output.accept(GreyGooMod.ORANGE_PURPLE_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.ORANGE_RED_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.ORANGE_WHITE_BLOCK_ITEM.get());
                         // Defensive
                         output.accept(GreyGooMod.CLEANER_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.WALL_BLOCK_ITEM.get());
@@ -36,6 +40,12 @@ public class GreyGooCreativeTabs {
                         // Legacy/Special
                         output.accept(GreyGooMod.REDYELLOW_BLOCK_ITEM.get());
                         output.accept(GreyGooMod.RESTORER_BLOCK_ITEM.get());
+                        // Destroyers
+                        output.accept(GreyGooMod.BLACK_DESTROYER_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.CANCER_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.CANCER2_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.TGD_BLOCK_ITEM.get());
+                        output.accept(GreyGooMod.TGD_INERT_BLOCK_ITEM.get());
                     })
                     .build());
 

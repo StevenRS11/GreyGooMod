@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": {"model": "greygoo:block/air_eater_block"}
+    "inactive=false": {"model": "greygoo:block/air_eater_block"},
+    "inactive=true": {"model": "greygoo:block/air_eater_block_inactive"}
   }
 }

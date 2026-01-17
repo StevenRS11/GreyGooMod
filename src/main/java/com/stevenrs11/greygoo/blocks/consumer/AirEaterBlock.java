@@ -8,21 +8,32 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 /**
  * Air Eater - only consumes air blocks in lit areas.
  * Original behavior: requires light level > 7 (sky light).
- * Spreads via random ticks, dies in darkness or when surrounded.
+ * Spreads via random ticks.
+ * When no food is found, becomes inactive (stops spreading but stays in place).
  */
 public class AirEaterBlock extends RandomTickGooBlock {
 
+    public static final BooleanProperty INACTIVE = BooleanProperty.create("inactive");
     private static final int MIN_LIGHT_LEVEL = 7;
 
     public AirEaterBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(INACTIVE, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(INACTIVE);
     }
 
     @Override
@@ -32,6 +43,13 @@ public class AirEaterBlock extends RandomTickGooBlock {
 
     @Override
     protected void doSpread(ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockState currentState = level.getBlockState(pos);
+
+        // Check if inactive (starved) - skip spreading if so
+        if (currentState.getValue(INACTIVE)) {
+            return;
+        }
+
         boolean hasFood = false;
 
         for (Direction dir : Direction.values()) {
@@ -59,13 +77,13 @@ public class AirEaterBlock extends RandomTickGooBlock {
         }
 
         if (!hasFood) {
-            onStarve(level, pos, level.getBlockState(pos));
+            onStarve(level, pos, currentState);
         }
     }
 
     @Override
     protected void onStarve(ServerLevel level, BlockPos pos, BlockState state) {
-        // Air eater dies when it has no food
-        level.destroyBlock(pos, false);
+        // Air eater becomes inactive when it has no food
+        level.setBlockAndUpdate(pos, state.setValue(INACTIVE, true));
     }
 }

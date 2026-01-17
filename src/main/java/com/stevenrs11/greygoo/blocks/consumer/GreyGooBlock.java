@@ -8,18 +8,31 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 /**
  * The classic Grey Goo - consumes all non-protected blocks.
- * Spreads via random ticks, dies when no food is found.
+ * Spreads via random ticks.
+ * When no food is found, becomes inactive (stops spreading but stays in place).
+ * This matches the original behavior where metadata 2 = starved/inactive.
  */
 public class GreyGooBlock extends RandomTickGooBlock {
 
+    public static final BooleanProperty INACTIVE = BooleanProperty.create("inactive");
+
     public GreyGooBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(INACTIVE, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(INACTIVE);
     }
 
     @Override
@@ -29,6 +42,13 @@ public class GreyGooBlock extends RandomTickGooBlock {
 
     @Override
     protected void doSpread(ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockState currentState = level.getBlockState(pos);
+
+        // Check if inactive (starved) - skip spreading if so
+        if (currentState.getValue(INACTIVE)) {
+            return;
+        }
+
         boolean hasFood = false;
 
         for (Direction dir : Direction.values()) {
@@ -44,7 +64,6 @@ public class GreyGooBlock extends RandomTickGooBlock {
             GooInteraction interaction = getInteractionWith(level, target);
 
             if (interaction == GooInteraction.CONVERT_SELF) {
-                // Already handled in base class, but double-check
                 handleInteraction(level, pos, target, interaction);
                 return;
             }
@@ -62,18 +81,14 @@ public class GreyGooBlock extends RandomTickGooBlock {
         }
 
         if (!hasFood) {
-            onStarve(level, pos, level.getBlockState(pos));
+            onStarve(level, pos, currentState);
         }
     }
 
     @Override
     protected void onStarve(ServerLevel level, BlockPos pos, BlockState state) {
-        // Grey goo becomes inert (green goo) when it has no food
-        // This matches the original behavior where grey goo doesn't die, just stops spreading
-        net.minecraft.world.level.block.Block inertBlock = GooType.INERT.getBlock();
-        if (inertBlock != null) {
-            level.setBlockAndUpdate(pos, inertBlock.defaultBlockState());
-        }
-        // If inert block not available, just stay as grey goo (no destruction)
+        // Grey goo becomes inactive when it has no food
+        // It stays as grey goo but stops trying to spread (performance optimization)
+        level.setBlockAndUpdate(pos, state.setValue(INACTIVE, true));
     }
 }

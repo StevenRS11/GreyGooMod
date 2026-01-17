@@ -1,181 +1,174 @@
 package com.stevenrs11.greygoo.blocks.color;
 
+import com.stevenrs11.greygoo.GreyGooMod;
 import com.stevenrs11.greygoo.core.GooType;
-import com.stevenrs11.greygoo.core.ScheduledTickGooBlock;
+import com.stevenrs11.greygoo.core.RandomTickGooBlock;
 import com.stevenrs11.greygoo.interaction.GooInteraction;
 import com.stevenrs11.greygoo.interaction.ProtectedBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.phys.BlockHitResult;
 
 /**
- * Purple Goo (OrangePurple) - creates a "moving front" effect.
- * Manual spreading only (no random ticks).
- * When spreading, removes old blocks behind itself creating a trail.
- * Requires right-click to activate and spread.
+ * Purple Goo - matches BlockGreyGoo.java from original mod.
+ *
+ * Original behavior:
+ * - setTickRandomly(true) - uses random ticks
+ * - Spreads in all 6 directions to any edible block
+ * - Has decay() logic - when surrounded by air, removes column below
+ * - metadata 2 = inactive/starved (stops spreading but stays in place)
+ * - Converts to cleaner if adjacent to cleaner
+ *
+ * NOTE: In original code, this was confusingly named "BlockGreyGoo.java"
+ * but the in-game block is called "Purple Goo".
  */
-public class PurpleGooBlock extends ScheduledTickGooBlock {
+public class PurpleGooBlock extends RandomTickGooBlock {
 
-    // Use the standard activated property
-    public static final BooleanProperty ACTIVATED = ScheduledTickGooBlock.ACTIVATED;
+    public static final BooleanProperty INACTIVE = BooleanProperty.create("inactive");
 
     public PurpleGooBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE));
-        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVATED, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(INACTIVE, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(ACTIVATED);
+        builder.add(INACTIVE);
     }
 
     @Override
     public GooType getGooType() {
-        return GooType.ORANGE_PURPLE;
-    }
-
-    @Override
-    protected int getMinDelay() {
-        return 0;  // Minimum delay
-    }
-
-    @Override
-    protected int getDelayVariance() {
-        return 10;  // Original: random.nextInt(10)
-    }
-
-    @Override
-    protected boolean requiresActivation() {
-        return true;  // Only spreads when clicked
-    }
-
-    @Override
-    protected boolean hasFoundationRequirement() {
-        return true;  // Requires inert/purple foundation to spread
-    }
-
-    @Override
-    protected boolean isFoundationBlock(Block block) {
-        // Purple goo can spread from other purple goo or inert blocks
-        if (block == this) return true;
-        GooType type = GooType.fromBlock(block);
-        return type == GooType.INERT;
+        return GooType.PURPLE_GOO;
     }
 
     @Override
     protected void doSpread(ServerLevel level, BlockPos pos, RandomSource random) {
-        // Search in adjacent directions with Manhattan distance check
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                for (int dz = -1; dz <= 1; dz++) {
-                    if (dx == 0 && dy == 0 && dz == 0) {
-                        continue;
-                    }
+        BlockState currentState = level.getBlockState(pos);
 
-                    // Manhattan distance check (original: < 2)
-                    if (Math.abs(dx) + Math.abs(dy) + Math.abs(dz) >= 2) {
-                        continue;
-                    }
+        // Check if inactive (starved) - skip spreading if so
+        if (currentState.getValue(INACTIVE)) {
+            return;
+        }
 
-                    BlockPos target = pos.offset(dx, dy, dz);
-                    BlockState targetState = level.getBlockState(target);
+        boolean hasFood = false;
 
-                    // Skip if already purple goo
-                    if (targetState.is(this)) {
-                        continue;
-                    }
+        // Check for cleaner first (original behavior)
+        for (Direction dir : Direction.values()) {
+            BlockPos target = pos.relative(dir);
+            BlockState targetState = level.getBlockState(target);
 
-                    // Skip protected blocks
-                    if (ProtectedBlocks.isProtected(targetState)) {
-                        continue;
-                    }
-
-                    // Skip air
-                    if (targetState.isAir()) {
-                        continue;
-                    }
-
-                    // Check goo interactions
-                    GooInteraction interaction = getInteractionWith(level, target);
-                    if (interaction == GooInteraction.CONVERT_SELF) {
-                        handleInteraction(level, pos, target, interaction);
-                        return;
-                    }
-
-                    if (interaction == GooInteraction.IGNORE) {
-                        continue;
-                    }
-
-                    // Skip other goos (except inert)
-                    GooType targetGooType = GooType.fromBlock(targetState.getBlock());
-                    if (targetGooType != null && targetGooType != GooType.INERT) {
-                        continue;
-                    }
-
-                    // Spread to target (activated)
-                    level.setBlockAndUpdate(target, defaultBlockState().setValue(ACTIVATED, true));
-
-                    // Remove the block behind (creates "moving front" trail effect)
-                    // Original: removes at pos - direction*2, but we'll remove current pos
-                    // since that creates the moving front effect
-                    BlockPos behind = pos.offset(-dx * 2, -dy * 2, -dz * 2);
-                    BlockState behindState = level.getBlockState(behind);
-                    if (behindState.is(this)) {
-                        level.removeBlock(behind, false);
-                    }
-
-                    // Schedule tick for new block
-                    int delay = getMinDelay() + random.nextInt(getDelayVariance() + 1);
-                    level.scheduleTick(target, this, delay);
-                    recordSpread();
-                }
+            if (targetState.is(GreyGooMod.CLEANER_BLOCK.get())) {
+                level.setBlockAndUpdate(pos, GreyGooMod.CLEANER_BLOCK.get().defaultBlockState());
+                return;
             }
         }
 
-        // Purple goo removes itself after spreading (part of trail effect)
-        level.removeBlock(pos, false);
+        // Spread to all edible neighbors (6 directions)
+        for (Direction dir : Direction.values()) {
+            BlockPos target = pos.relative(dir);
+            BlockState targetState = level.getBlockState(target);
+
+            // Skip air
+            if (targetState.isAir()) {
+                continue;
+            }
+
+            // Skip self
+            if (targetState.is(this)) {
+                continue;
+            }
+
+            // Skip protected blocks
+            if (ProtectedBlocks.isProtected(targetState)) {
+                continue;
+            }
+
+            // Check goo interactions
+            GooInteraction interaction = getInteractionWith(level, target);
+            if (interaction == GooInteraction.IGNORE) {
+                continue;
+            }
+
+            // Spread to target
+            level.setBlockAndUpdate(target, defaultBlockState());
+            hasFood = true;
+            recordSpread();
+        }
+
+        // If no food found, become inactive
+        if (!hasFood) {
+            onStarve(level, pos, currentState);
+        }
+
+        // Decay logic - if surrounded by air on 5 sides (not below), remove column
+        decay(level, pos);
+    }
+
+    /**
+     * Original decay() behavior:
+     * If surrounded by air on all horizontal sides and above,
+     * remove the entire column of purple goo below.
+     */
+    private void decay(ServerLevel level, BlockPos pos) {
+        // Check if surrounded by air on 5 sides (all except below)
+        boolean airAbove = level.isEmptyBlock(pos.above());
+        boolean airEast = level.isEmptyBlock(pos.east());
+        boolean airWest = level.isEmptyBlock(pos.west());
+        boolean airNorth = level.isEmptyBlock(pos.north());
+        boolean airSouth = level.isEmptyBlock(pos.south());
+
+        if (airAbove && airEast && airWest && airNorth && airSouth) {
+            // Find how far down the column of air/goo goes
+            int depth = 0;
+            BlockPos checkPos = pos;
+
+            while (depth < 100) {
+                checkPos = checkPos.below();
+                BlockState belowState = level.getBlockState(checkPos);
+
+                // Check if still surrounded by air at this level
+                boolean stillSurrounded = level.isEmptyBlock(checkPos.east()) &&
+                                          level.isEmptyBlock(checkPos.west()) &&
+                                          level.isEmptyBlock(checkPos.north()) &&
+                                          level.isEmptyBlock(checkPos.south());
+
+                if (!stillSurrounded) {
+                    break;
+                }
+                depth++;
+            }
+
+            // Remove the column including self
+            if (depth > 0) {
+                for (int d = 0; d <= depth; d++) {
+                    BlockPos removePos = pos.below(d);
+                    BlockState removeState = level.getBlockState(removePos);
+                    if (removeState.is(this) || removeState.isAir()) {
+                        level.removeBlock(removePos, false);
+                    }
+                }
+                level.removeBlock(pos, false);
+            } else if (airAbove) {
+                // Original: just remove self if air above but not a column
+                level.removeBlock(pos, false);
+            }
+        } else if (airAbove) {
+            // Just air above - remove self
+            level.removeBlock(pos, false);
+        }
     }
 
     @Override
     protected void onStarve(ServerLevel level, BlockPos pos, BlockState state) {
-        // Purple goo just disappears when it can't spread
-        level.removeBlock(pos, false);
-    }
-
-    @Override
-    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        // Override parent to NOT auto-schedule
-        // Purple goo only activates via right-click or when placed already activated
-        if (!level.isClientSide && state.getValue(ACTIVATED)) {
-            scheduleNextTick(level, pos);
-        }
-    }
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos,
-                                  Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!level.isClientSide) {
-            if (!state.getValue(ACTIVATED)) {
-                // Activate on click
-                level.setBlockAndUpdate(pos, state.setValue(ACTIVATED, true));
-                scheduleNextTick(level, pos);
-            } else {
-                // Manual spread trigger
-                doSpread((ServerLevel) level, pos, level.getRandom());
-            }
-        }
-        return InteractionResult.SUCCESS;
+        // Purple goo becomes inactive when it has no food
+        // It stays as purple goo but stops trying to spread (performance optimization)
+        level.setBlockAndUpdate(pos, state.setValue(INACTIVE, true));
     }
 }

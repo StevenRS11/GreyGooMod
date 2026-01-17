@@ -13,15 +13,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import java.util.Set;
 
 /**
  * Miner Goo - consumes stone and earth blocks only.
  * Original behavior: eats gravel, stone, sand, sandstone, netherrack, soul sand, clay.
- * Becomes inert when no food is found.
+ * When no food is found, becomes inactive (stops spreading but stays in place).
  */
 public class MinerGooBlock extends RandomTickGooBlock {
+
+    public static final BooleanProperty INACTIVE = BooleanProperty.create("inactive");
 
     // Blocks that miner goo can eat (matching original behavior)
     private static final Set<Block> MINEABLE = Set.of(
@@ -50,6 +54,12 @@ public class MinerGooBlock extends RandomTickGooBlock {
 
     public MinerGooBlock() {
         super(BlockBehaviour.Properties.copy(Blocks.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(INACTIVE, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(INACTIVE);
     }
 
     @Override
@@ -73,6 +83,13 @@ public class MinerGooBlock extends RandomTickGooBlock {
 
     @Override
     protected void doSpread(ServerLevel level, BlockPos pos, RandomSource random) {
+        BlockState currentState = level.getBlockState(pos);
+
+        // Check if inactive (starved) - skip spreading if so
+        if (currentState.getValue(INACTIVE)) {
+            return;
+        }
+
         boolean hasFood = false;
 
         for (Direction dir : Direction.values()) {
@@ -105,16 +122,14 @@ public class MinerGooBlock extends RandomTickGooBlock {
         }
 
         if (!hasFood) {
-            onStarve(level, pos, level.getBlockState(pos));
+            onStarve(level, pos, currentState);
         }
     }
 
     @Override
     protected void onStarve(ServerLevel level, BlockPos pos, BlockState state) {
-        // Miner goo becomes inert when it has no food (same as grey goo)
-        Block inertBlock = GooType.INERT.getBlock();
-        if (inertBlock != null) {
-            level.setBlockAndUpdate(pos, inertBlock.defaultBlockState());
-        }
+        // Miner goo becomes inactive when it has no food
+        // It stays as miner goo but stops trying to spread
+        level.setBlockAndUpdate(pos, state.setValue(INACTIVE, true));
     }
 }

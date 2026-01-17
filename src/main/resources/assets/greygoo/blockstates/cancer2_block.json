@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "inactive=false": {"model": "greygoo:block/cancer2_block"},
+    "inactive=true": {"model": "greygoo:block/cancer2_block"}
+  }
+}

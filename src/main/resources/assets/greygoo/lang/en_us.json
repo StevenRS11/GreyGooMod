@@ -13,5 +13,13 @@
   "block.greygoo.rapid_eater_block": "Rapid Eater",
   "block.greygoo.rapid_miner_block": "Rapid Miner",
   "block.greygoo.purple_goo_block": "Purple Goo",
+  "block.greygoo.orange_purple_block": "Orange Purple",
+  "block.greygoo.orange_red_block": "Orange Red",
+  "block.greygoo.orange_white_block": "Orange White",
+  "block.greygoo.black_destroyer_block": "Black Destroyer",
+  "block.greygoo.cancer_block": "Cancer",
+  "block.greygoo.cancer2_block": "Cancer II",
+  "block.greygoo.tgd_block": "The Grey Death",
+  "block.greygoo.tgd_inert_block": "TGD Inert",
   "itemGroup.greygoo": "Grey Goo"
 }

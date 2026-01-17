@@ -1,5 +1,6 @@
 {
   "variants": {
-    "": {"model": "greygoo:block/miner_goo_block"}
+    "inactive=false": {"model": "greygoo:block/miner_goo_block"},
+    "inactive=true": {"model": "greygoo:block/miner_goo_block_inactive"}
   }
 }
